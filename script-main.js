@@ -16,21 +16,22 @@ function playRound(playerSelection, computerSelection) {
     if ((playerSelection === "ROCK" && computerSelection === "SCISSORS") ||
         (playerSelection === "PAPER" && computerSelection === "ROCK") ||
         (playerSelection === "SCISSORS" && computerSelection === "PAPER")) {
-            console.log("You win, " + playerSelection.toLowerCase() + " beats " + computerSelection.toLowerCase() + "!");
+            resultsRound.textContent = "You win, " + playerSelection.toLowerCase() + " beats " + computerSelection.toLowerCase() + "!";
             return "win";
     } else if (playerSelection === computerSelection) {
-        console.log("It's a tie, you both chose " + computerSelection.toLowerCase() + ".");
+        resultsRound.textContent = "It's a tie, you both chose " + computerSelection.toLowerCase() + ".";
         return "tie";
     } else {
-        console.log("You lose, " + computerSelection.toLowerCase() + " beats " + playerSelection.toLowerCase() + ".");
+        resultsRound.textContent = "You lose, " + computerSelection.toLowerCase() + " beats " + playerSelection.toLowerCase() + ".";
         return "lose";
     }
 }
 
+let humanScore = 0;
+let computerScore = 0;
+
 function game(playerSelection, computerSelection) {
     let outcome = playRound(playerSelection, computerSelection);
-    let humanScore = 0;
-    let computerScore = 0;
 
     if (outcome === "win") {
         humanScore++;
@@ -41,12 +42,18 @@ function game(playerSelection, computerSelection) {
         computerScore += 0.5;
     }
 
-    if (humanScore > computerScore) {
-        console.log("Human player wins, " + humanScore + " to " + computerScore + ".");
-    } else if (computerScore < humanScore) {
-        console.log("Computer wins, " + computerScore + " to " + humanScore + ".");
+    if (humanScore >= 5 && computerScore >= 5 && humanScore == computerScore) {
+        score.textContent = "Tie Game!";
+
+    } else if (humanScore >= 5 && humanScore > computerScore) {
+        score.textContent = "You Win!";
+    } else if (computerScore >= 5 && computerScore > humanScore) {
+        score.textContent = "You Lose.";
     } else {
-        console.log("Tie game, " + computerScore + " to " + humanScore + ".");
+        let humanScoreString = humanScore.toString();
+        let computerScoreString = computerScore.toString();
+    
+        score.textContent = "Current Score: " + humanScoreString + " to " + computerScoreString;
     }
 }
 
@@ -61,4 +68,10 @@ function chooseItem(e) {
 }
 
 const btns = document.querySelectorAll('button');
+const resultsDiv = document.querySelector('#results');
+const resultsRound = document.createElement('p');
+const score = document.createElement('p')
+
 btns.forEach(btn => btn.addEventListener('click', chooseItem));
+resultsDiv.appendChild(resultsRound);
+resultsDiv.appendChild(score);
